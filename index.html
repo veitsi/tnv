@@ -18,8 +18,8 @@
         vxcvcxvxvx
     </div>
     <div class="col-xs-10 chcanvas">
-        <div class="chnode" style="top: 10px; left:10px"></div>
-        <div class="chnode" style="top: 40px; left:200px"></div>
+        <div id="" class="chnode draggable" style="top: 10px; left:10px"></div>
+        <div class="chnode draggable" style="top: 40px; left:200px"></div>
 
     </div>
     <div class="col-xs-12 footer">@2015, Supersimulator</div>
@@ -27,5 +27,9 @@
 </div>
 
 <script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script>
+    $(".draggable").draggable();
+</script>
 </body>
 </html>

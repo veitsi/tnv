@@ -1,13 +1,13 @@
 .chnodes {
     border: 1px green;
     background-color: yellow;
-    min-height: 600px;
+    min-height: 300px;
 }
 .chcanvas {
     position: relative;
     border: 1px;
     background-color: wheat;
-    min-height: 600px;
+    min-height: 300px;
 }
 .chnode {
     position: absolute;

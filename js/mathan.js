@@ -24,7 +24,7 @@ function reduceArray(A,i){
     var l=bitMask.length;
     var al=A.length;
     for (i=l-1;i>=0;i--){
-        console.log(bitMask, bitMask[i], A);
+        //console.log(bitMask, bitMask[i], A);
 
         if (bitMask[i]==="1"){A.splice(i+(al-l),1);
         }
@@ -38,10 +38,11 @@ function fullHouse(A){
     for(var i=0;i<fal;i++){
         var Aext=permutation(i, A.slice(0));
         fh.push(Aext);
-        //var nrp= (2<< Aext.length)-1;
-        //for (var i=0;i<=nrp;i++){
-        //    fh.push(reduceArray(Aext.slice(0),i));
-        //}
+        var nrp= 2<< (Aext.length);
+        for (var i=1;i<=nrp;i++){
+            console.log(i, reduceArray(Aext.slice(0),i));
+            //fh.push(reduceArray(Aext.slice(0),i));
+        }
     }
     return fh;
 }

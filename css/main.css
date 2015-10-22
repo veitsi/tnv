@@ -1,5 +1,5 @@
-.chnodes {
-    border: 1px green;
+.chtools {
+    position: relative;
     background-color: yellow;
     min-height: 300px;
 }

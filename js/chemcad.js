@@ -1,28 +1,42 @@
 eps=0.001;
 var membs=[[0.8, 0.65],[0.4, 0.12],[0.64, 0.17], [.25,.01], [0.78,.44], [.56,.12]];
 
-//var confs=fullHouse([0,3,1,2]);
-//for (var j=0;j<confs.length; j++){
-//    var conf = confs[j];
-//    var source=new Source(1000,0.014);
-//    var sink=new Sink();
-//    var nodes=[];
-//
-//    for (var i=0;i<conf.length; i++){
-//        var im=conf[i];
-//        nodes[i]=new MemV(membs[im][0], membs[im][1],1);
-//        if (i===0) {
-//            nodes[i].in1=source.out1;
-//        }
-//        else {
-//            nodes[i].in1=nodes[i-1].out1;
-//        }
-//        nodes[i].calc();
-//        //console.log(im, nodes[i]);
-//    }
-//    sink.in1=nodes[conf.length-1].out1;
-//    console.log(sink.in1.v, sink.in1.c, conf);
-//}
+var confs=fullHouse([0,3,1,2]);
+var rez=[];
+for (var j=0;j<confs.length; j++){
+    var conf = confs[j];
+    var source=new Source(1000,0.014);
+    var sink=new Sink();
+    var nodes=[];
+
+    for (var i=0;i<conf.length; i++){
+        var im=conf[i];
+        nodes[i]=new MemV(membs[im][0], membs[im][1],1);
+        if (i===0) {
+            nodes[i].in1=source.out1;
+        }
+        else {
+            nodes[i].in1=nodes[i-1].out1;
+        }
+        nodes[i].calc();
+        //console.log(im, nodes[i]);
+    }
+    sink.in1=nodes[conf.length-1].out1;
+    console.log(sink.in1.c.toFixed(8), conf);
+    rez[j]={};
+    rez[j].c=sink.in1.c;
+    rez[j].conf=conf;
+}
+var needSort=true;temp={};
+while (needSort){
+    needSort=false;
+    for (var i=0;i<rez.length-1;i++)
+        if (rez[i].c>rez[i+1].c){
+        needSort=true;
+        tmp=rez[i].c;rez[i].c=rez[i+1].c;rez[i+1].c=tmp;
+    }
+}
+console.log(rez);
 
 function Stream(v,c){
     this.v=v||null;

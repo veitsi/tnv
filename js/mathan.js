@@ -19,20 +19,42 @@ function permutation(index, A){
     if (A.length) res.push(A[0]);
     return res;
 }
+function reduceArray(A,i){
+    var bitMask= i.toString(2);
+    var l=bitMask.length;
+    for (i=l-1;i>=0;i--){
+        if (bitMask[i]==="1"){
+            A.splice(i+2,1);
+        }
+    }
+    return A;
+}
+
+function fullHouse(A){
+    var fh=[];
+    var fal=fact(A.length);
+    for(var i=0;i<fal;i++){
+        var Aext=permutation(i, A.slice(0));
+        fh.push(Aext);
+        //var nrp= (2<< Aext.length)-1;
+        //for (var i=0;i<=nrp;i++){
+        //    fh.push(reduceArray(Aext.slice(0),i));
+        //}
+    }
+    return fh;
+}
 
 function log(){
     var msg = Array.prototype.slice.call(arguments).join(" ");
     document.getElementById("log").value+="\n"+msg;
     console.log(arguments);
 }
-const M = ["A","B","C","D"];
-var fml=fact(M.length);
+var M = ["A","B","C","D"];
+
 console.log(M);
+
+
 //console.log(M, permutation(3, ["A","B","C","D"]));
-//console.log(M, permutation(2, ["A","B","C","D"]));
-//console.log(M, permutation(5,["A","B","C","D"]));
-//for (var i=1;i<10;i++) {console.log(i, fact(i))}
-for(var i=0;i<fml;i++){
-    //console.log(i,permutation(i,M.slice(0)).join(""));
-    console.log(i, permutation(i, M.slice(0)));
-}
+//reducedPermutation(M.slice(0));
+//reduceArray(M,4);console.log(M);
+

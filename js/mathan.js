@@ -1,11 +1,10 @@
 var facts = [];
 function fact(n){
     var f=1;
-    for (var i=2;i<=n;i++){
-        f*=i;
-    }
+    for (var i=2;i<=n;i++){f*=i;}
     return f;
 }
+
 function permutation(index, A){
     var n=A.length;
     var i=index+1;
@@ -19,12 +18,15 @@ function permutation(index, A){
     if (A.length) res.push(A[0]);
     return res;
 }
+
 function reduceArray(A,i){
     var bitMask= i.toString(2);
     var l=bitMask.length;
+    var al=A.length;
     for (i=l-1;i>=0;i--){
-        if (bitMask[i]==="1"){
-            A.splice(i+2,1);
+        console.log(bitMask, bitMask[i], A);
+
+        if (bitMask[i]==="1"){A.splice(i+(al-l),1);
         }
     }
     return A;

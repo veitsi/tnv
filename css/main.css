@@ -1,20 +1,25 @@
 .chtools {
     position: relative;
-    background-color: yellow;
+    border: 1px black solid;
     min-height: 300px;
 }
 .chcanvas {
     position: relative;
-    border: 1px;
-    background-color: wheat;
+    border: 1px black solid;
     min-height: 300px;
 }
-.chnode {
-    position: absolute;
-    min-height: 50px;
-    min-width: 50px;
-    background-color: yellow;
+.chsolutions {
+    position: relative;
+    border: 1px black solid;
+    min-height: 300px;
 }
+
+.chnode {
+    min-height: 100px;
+    min-width: 100px;
+   max-width: 100px;
+}
+
 
 .crossed {
     background:

@@ -1,3 +1,4 @@
+var data=[5,0,2];
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
     if (!array)
@@ -105,7 +106,6 @@ function fact(n){
     for (var i=2;i<=n;i++){f*=i;}
     return f;
 }
-
 function permutation(index, A){
     var n=A.length;
     var i=index+1;
@@ -119,7 +119,6 @@ function permutation(index, A){
     if (A.length) res.push(A[0]);
     return res;
 }
-
 function reduceArray(A,i){
     var bitMask= i.toString(2);
     var l=bitMask.length;
@@ -130,7 +129,6 @@ function reduceArray(A,i){
     }
     return A;
 }
-
 function fullHouse(A){
     var fh=[];
     var fal=fact(A.length);
@@ -157,7 +155,7 @@ function calcSchemes(data){
 
     var confs=fullHouse(data);
     var rez=[];
-    for (var j=0;j<confs.length; j++){
+    for (var j=confs.length-1;j>=0; j--){
         var conf = confs[j];
         var source=new Source(1000,0.014);
         var sink=new Sink();
@@ -192,8 +190,6 @@ function calcSchemes(data){
     }
     console.log(rez);
 }
-
-var data=[5,1,1,2,3];
 calcSchemes(data);
 
 function calcOnWorkers(){
@@ -206,8 +202,8 @@ function calcOnWorkers(){
             return i;
         };
 
-        data=kva(data);
-        //data=fullHouse("a","b");
+        //data=kva(data);
+        data=fullHouse("a","b");
         return data;
     }).then(function (data){
         console.log('worker finished-'+data)

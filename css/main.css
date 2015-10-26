@@ -1,23 +1,32 @@
+.work-area{
+    padding: 0;
+}
 .chtools {
     position: relative;
+    padding: 0;
     border: 1px black solid;
     min-height: 300px;
 }
 .chcanvas {
     position: relative;
+    padding-left: auto;
+    padding-right: auto;
     border: 1px black solid;
     min-height: 300px;
 }
 .chsolutions {
     position: relative;
+    padding: 0;
     border: 1px black solid;
     min-height: 300px;
 }
 
 .chnode {
-    min-height: 100px;
-    min-width: 100px;
-   max-width: 100px;
+    border: 1px groove;
+    display: inline-block;
+    min-height: 80px;
+    min-width: 80px;
+    max-width: 80px;
 }
 
 

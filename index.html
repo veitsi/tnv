@@ -10,37 +10,77 @@
 
 <div class="container-fluid cadcanvas">
     <footer class="text-center">Supersimulator for watercleaning</footer>
-    <div class="row">
+    <div class="row input and output">
+        <div class="col-xs-12">
+            <input type="button" value="calc" onclick="calc()">
+            <label title="V объем входящей жидкости">Vvh:
+                <input type="text" id="Vvh" value="100" size="3">
+            </label>
+            <label title="C входная концентрация">
+                Cvh:<input type="text" id="Cvh" value=".210" size="3">
+            </label>
+            <label title="C выходная концентрация">Cvyh:
+                <input type="text" id="Cvyh" readonly size="8"
+                        value=".210">
+            </label>
+
+        </div>
+    </div>
+    <div class="row wprk-area">
         <div class="col-xs-4 chtools">
-            <div class="chnode"
-                 style="background-image: url('img/fan-100x100.png')"></div>
-            <div class="chnode"
-                 style="background-image: url('img/Speed-100x100.png')"></div>
-            <div class="chnode"
-                 style="top: 200px; left:0px; background-image: url('img/rotor-100x100.png')"></div>
-        </div>
-
-        <div class="col-xs-4 chcanvas">
-
-        </div>
-        <div class="col-xs-4 chsolutions">
-            Solutions will be here
+            <div id="0" class="chnode" title="Механический фильтр-0"
+                 style="background-image: url('img/80px-Autoclave.svg.png')"></div>
+            <div id="1" class="chnode" title="Адсорбционный фильтр-1"
+                 style="background-image: url('img/80px-Cooler-symbol.svg.png')"></div>
+            <div id="2" class="chnode" title="Обратноосмотическая мембрана-2"
+                 style="top: 200px; left:0px; background-image: url('img/80px-Double_pipe_heat_exchanger.svg.png')"></div>
+            <div id="3" class="chnode" title="Обратноосмотическая мембрана-3"
+                 style="background-image: url('img/80px-Fluid_contacting_column.svg.png')"></div>
+            <div id="4" class="chnode" title="Ультрафильтрационная мембрана-4"
+                 style="background-image: url('img/80px-Heat_exchanger_no_cross.svg.png')"></div>
 
         </div>
 
+        <div class="col-xs-2 chcanvas">
+
+        </div>
+        <div class="col-xs-6 chsolutions">
+            Solutions will be here<br>
+        </div>
     </div>
 </div>
 
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
+<script src="js/chemcad.js"></script>
 <script>
+
+    var scheme=[];
+    function calc(){
+        //alert("calculation started");
+        var rez=calcSchemes(scheme);
+        document.getElementById("Cvyh").setAttribute("value",rez[0].c);
+        console.log(0.15+Math.random()/20 );
+        var chsolutions = document.getElementsByClassName('chsolutions')[0];
+        for (var i=rez.length-1;i>=0;i--){
+            //document.write();
+            //chsolutions.write('-----------');
+            chsolutions.innerHTML+=rez[i].conf+"<br/>";
+
+        }
+
+    }
+
     $(document).ready(function () {
         //$("p").text("The DOM is now loaded and can be manipulated.");
         $(".chnode").click(function () {
-            $(this).slideDown();
-            console.log(this);
+            //$(this).fadeIn("slow");
+
+            scheme.push(+this.id);
+            console.log(scheme, 'was added '+this.id);
             var icoClone=$(this).clone();
             $('.chcanvas').append(icoClone);
+            //$(icoClone).fadeIn("slow");
             //$(this).insertAfter(this);
         });
     });

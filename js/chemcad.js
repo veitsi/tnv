@@ -189,8 +189,9 @@ function calcSchemes(data){
             }
     }
     console.log(rez);
+    return rez;
 }
-calcSchemes(data);
+//calcSchemes(data);
 
 function calcOnWorkers(){
     var p = new Parallel([5,1,1,2]);

@@ -16,7 +16,7 @@
 }
 .chsolutions {
     position: relative;
-    padding: 0;
+    padding: 10px;
     border: 1px black solid;
     min-height: 300px;
 }

@@ -60,12 +60,10 @@
         //alert("calculation started");
         var rez=calcSchemes(scheme);
         document.getElementById("Cvyh").setAttribute("value",rez[0].c);
-        console.log(0.15+Math.random()/20 );
         var chsolutions = document.getElementsByClassName('chsolutions')[0];
-        for (var i=rez.length-1;i>=0;i--){
-            //document.write();
-            //chsolutions.write('-----------');
-            chsolutions.innerHTML+=rez[i].conf+"<br/>";
+        chsolutions.innerHTML="";
+        for (var i=0;i<rez.length;i++){
+            chsolutions.innerHTML+="Cvyh= "+rez[i].c.toFixed(7)+" ["+rez[i].conf+"] <br/>";
 
         }
 

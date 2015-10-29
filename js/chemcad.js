@@ -31,6 +31,10 @@ function Stream(v,c){
         return "volume="+this.v+",conc="+this.c+",selfCheck:"+this.selfCheck+"; ";
     }
 }
+function Stream3c(v,c){
+    this.v=v||null;
+    this.c=c||[];
+};
 function Source(v,c){
     this.out1=new Stream(v,c);
     this.calc=function(){};
@@ -101,12 +105,20 @@ function MemV(kV,kC,maxV,maxC) {//modified Mem where out1 depends on V
     }
 }
 
-function Node(){
-    this.in1=new Stream();
-    this.out1=new Stream();
-    this.calc=function{
-        this.out1.v=;
-        this.out1.c=;
+function Node(vmax,cmax,k){
+    this.in1=new Stream3c();
+    this.out1=new Stream3c();
+    this.vmax=vmax|| 10;
+    this.cmax=cmax||[1100,1100,1100];
+    this.k=k||0.88;
+    this.calc=function(){
+        if (this.in1.v>this.vmax  || this.in1.c[0]> this.cmax[0]
+        || this.in1.c[1]>this.cmax[1] || this.in1.c[2]>this.cmax[2]) return false;
+        this.out1.v=this.in1.v;
+        this.out1.c[0]=this.in1.c[0]*this.k[0];
+        this.out1.c[1]=this.in1.c[1]*this.k[1];
+        this.out1.c[2]=this.in1.c[2]*this.k[2];
+        return true;
     }
 }
 
@@ -186,44 +198,62 @@ function fullHouse(A){
     return fh;
 }
 function calcSchemes(data){
+
     eps=0.001;
-    var membs=[[0.8, 0.65],[0.4, 0.12],[0.64, 0.17], [.25,.01], [0.78,.44], [.56,.12]];
+    var membvmaxs=[15, 10, 5, 7];
+    var membcmaxs=[[1000, 1500, 1500],[10, 1500, 1500],[1, 15, 2500],[1500, 1500, 1500]];
+    var membks=[[.99,.25,.001], [.99,.99,.001], [.99999,.99,.99], [.999,.75,.1]];
+    //var membs=[[10, 0.65],[0.4, 0.12],[0.64, 0.17], [.25,.01], [0.78,.44], [.56,.12]];
+    data=data||[0,1,2];
 
     var confs=fullHouse(data);
     var rez=[];
     for (var j=confs.length-1;j>=0; j--){
         var conf = confs[j];
-        var source=new Source(1000,0.014);
-        var sink=new Sink();
+        var source={out1:null};
+        source.out1=new Stream3c(1,[2,2,1]);
+        var sink={in1:null};
+        sink.in1=new Stream3c();
         var nodes=[];
+        var confOk=true;
 
         for (var i=0;i<conf.length; i++){
             var im=conf[i];
-            nodes[i]=new MemV(membs[im][0], membs[im][1],1);
+            //nodes[i]=new MemV(membs[im][0], membs[im][1],1);
+            nodes[i]=new Node(membvmaxs[im], membcmaxs[im], membks[im]);
             if (i===0) {
                 nodes[i].in1=source.out1;
             }
             else {
                 nodes[i].in1=nodes[i-1].out1;
             }
-            nodes[i].calc();
+            if (!nodes[i].calc()) {
+                confOk=false;
+                break;
+            };
             //console.log(im, nodes[i]);
         }
-        sink.in1=nodes[conf.length-1].out1;
-        console.log(sink.in1.c.toFixed(8), conf);
-        rez[j]={};
-        rez[j].c=sink.in1.c;
-        rez[j].conf=conf;
+
+        if (confOk){
+            sink.in1=nodes[conf.length-1].out1;
+            //console.log(sink.in1.c.toFixed(8), conf);
+            var tmp={};
+            tmp.c=[];
+            //tmp.c=sink.in1.c;
+            for (var i= 2;i>-1;i--){tmp.c[i]=sink.in1.c[i].toFixed(5);}
+            tmp.conf=conf;
+            rez.push(tmp);
+        }
     }
-    var needSort=true;temp={};
-    while (needSort){
-        needSort=false;
-        for (var i=0;i<rez.length-1;i++)
-            if (rez[i].c>rez[i+1].c){
-                needSort=true;
-                tmp=rez[i].c;rez[i].c=rez[i+1].c;rez[i+1].c=tmp;
-            }
-    }
+    //var needSort=true;temp={};
+    //while (needSort){
+    //    needSort=false;
+    //    for (var i=0;i<rez.length-1;i++)
+    //        if (rez[i].c>rez[i+1].c){
+    //            needSort=true;
+    //            tmp=rez[i].c;rez[i].c=rez[i+1].c;rez[i+1].c=tmp;
+    //        }
+    //}
     console.log(rez);
     return rez;
 }
